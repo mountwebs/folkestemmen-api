@@ -8,4 +8,9 @@ router.get('/', async (req, res) => {
   res.json(answerData).status(200).end();
 });
 
+router.post('/', async (req, res) => {
+  console.log(req.body);
+  res.status(201).send(JSON.stringify(req.body));
+});
+
 module.exports = router;
