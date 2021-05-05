@@ -9,8 +9,8 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  console.log(req.body);
-  res.status(201).send(JSON.stringify(req.body));
+  const postedAnswer = await answerController.postAnswer(req.body);
+  res.status(201).send(JSON.stringify(postedAnswer));
 });
 
 module.exports = router;
