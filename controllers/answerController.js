@@ -2,7 +2,7 @@ const answerModel = require('../models/answerModel');
 
 module.exports = {
   getAllAnswers: async () => {
-    const answers = await answerModel.find();
+    const answers = await answerModel.find().sort({ date: -1 });
     return answers;
   },
 
