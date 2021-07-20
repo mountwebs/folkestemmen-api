@@ -2,7 +2,11 @@ const answerModel = require('../models/answerModel');
 
 module.exports = {
   getAllAnswers: async () => {
-    const answers = await answerModel.find().sort({ date: -1 });
+    const answers = await answerModel
+      .find()
+      .populate('tags')
+      .sort({ date: -1 })
+      .exec();
     return answers;
   },
 
