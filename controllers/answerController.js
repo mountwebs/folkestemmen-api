@@ -5,7 +5,7 @@ module.exports = {
     const answers = await answerModel
       .find()
       .populate('tags')
-      .sort({ date: -1 })
+      .sort({ createdAt: -1 })
       .exec();
     return answers;
   },
