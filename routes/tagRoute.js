@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const errorHandler = require('../utils/errorHandler');
+const { errorHandler } = require('../utils/errorHandler');
 const tagController = require('../controllers/tagController');
 
 router.get(
