@@ -15,6 +15,7 @@ router.get(
 router.get(
   '/:id',
   errorHandler(async (req, res) => {
+    // TODO: Fix error handling here. Try - catch?
     const { id } = req.params;
     const tagData = await tagController.getTag(id);
     res.json(tagData).status(200).end();
