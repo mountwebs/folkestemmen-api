@@ -16,13 +16,19 @@ app.use(helmet());
 app.use('/answer', answerRoute);
 app.use('/tag', tagRoute);
 
-app.use(function (req, res, next) {
-  res.status(404).send("404: Sorry can't find that!");
+app.use((req, res, next) => {
+  const err = new Error('Not Found');
+  err.status = 404;
+  next(err);
 });
 
 app.use((err, req, res, next) => {
   res.status(err.status || 500);
-  res.end('error');
+  res.json({
+    error: {
+      message: err.message,
+    },
+  });
 });
 
 module.exports.app = app;
