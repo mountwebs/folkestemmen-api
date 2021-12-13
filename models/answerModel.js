@@ -6,12 +6,7 @@ const answerModelSchema = new Schema(
   {
     text: { type: String, required: true },
     user: String,
-    tags: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Tag',
-      },
-    ],
+    tags: String,
   },
   { timestamps: true }
 );
