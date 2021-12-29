@@ -12,4 +12,15 @@ module.exports = {
     const savedAnswer = await newAnswer.save();
     return savedAnswer;
   },
+
+  updateAnswer: async (id, data) => {
+    const newAnswer = await answerModel.findByIdAndUpdate(id, data, {
+      new: true,
+      useFindAndModify: false,
+    });
+    return newAnswer;
+    // const newAnswer = new answerModel(data);
+    // const savedAnswer = await newAnswer.save();
+    // return savedAnswer;
+  },
 };

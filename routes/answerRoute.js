@@ -13,4 +13,12 @@ router.post('/', async (req, res) => {
   res.status(201).send(JSON.stringify(postedAnswer));
 });
 
+router.put('/:id', async (req, res) => {
+  const newAnswer = await answerController.updateAnswer(
+    req.params.id,
+    req.body
+  );
+  res.status(200).send(JSON.stringify(newAnswer));
+});
+
 module.exports = router;
