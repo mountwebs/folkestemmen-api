@@ -14,7 +14,7 @@ app.use(morgan('tiny'));
 app.use(helmet());
 
 app.use('/answer', answerRoute);
-app.use('/tag', tagRoute);
+// app.use('/tag', tagRoute);
 
 app.use(function (req, res, next) {
   res.status(404).send("404: Sorry can't find that!");
@@ -22,7 +22,8 @@ app.use(function (req, res, next) {
 
 app.use((err, req, res, next) => {
   res.status(err.status || 500);
-  res.end('error');
+  console.log(err);
+  res.end(err.message);
 });
 
 module.exports.app = app;
