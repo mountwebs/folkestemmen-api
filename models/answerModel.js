@@ -7,7 +7,8 @@ const answerModelSchema = new Schema(
     text: { type: String, required: true },
     user: String,
     tags: String,
-    likes: [String]
+    likes: [String],
+    numOfLikes: { type: Number, default: 0 },
   },
   { timestamps: true }
 );

@@ -5,7 +5,7 @@ const answerController = require('../controllers/answerController.js');
 
 router.get('/', async (req, res, next) => {
   try {
-    const answerData = await answerController.getAllAnswers();
+    const answerData = await answerController.getAllAnswers(req.query.sort);
     res.json(answerData).status(200).end();
   } catch (error) {
     next(error);
