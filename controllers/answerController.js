@@ -15,14 +15,16 @@ module.exports = {
     return savedAnswer;
   },
 
+  deleteAnswer: async (id) => {
+    const deleted = await answerModel.findByIdAndDelete(id);
+    return deleted;
+  },
+
   updateAnswer: async (id, data) => {
     const newAnswer = await answerModel.findByIdAndUpdate(id, data, {
       new: true,
       useFindAndModify: false,
     });
     return newAnswer;
-    // const newAnswer = new answerModel(data);
-    // const savedAnswer = await newAnswer.save();
-    // return savedAnswer;
   },
 };
