@@ -15,6 +15,16 @@ module.exports = {
     return savedAnswer;
   },
 
+  postAnswer: async (req, res, next) => {
+    try {
+      const newAnswer = new answerModel(req.body);
+      const savedAnswer = await newAnswer.save();
+      res.status(201).send(JSON.stringify(savedAnswer));
+    } catch (error) {
+      next(error);
+    }
+  },
+
   updateAnswer: async (id, data) => {
     const newAnswer = await answerModel.findByIdAndUpdate(id, data, {
       new: true,
