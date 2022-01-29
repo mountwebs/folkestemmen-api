@@ -1,4 +1,7 @@
 const answerModel = require('../models/answerModel');
+const encrypt = require('./../utils/encrypt');
+
+require('dotenv').config();
 
 module.exports = {
   getAllAnswers: async (req, res, next) => {
@@ -15,6 +18,9 @@ module.exports = {
 
   postAnswer: async (req, res, next) => {
     try {
+      // console.log(req.body, input.userId);
+      if (!req.body.userId) return res.status(403).end();
+      req.body.userId = encrypt(req.body.userId);
       const newAnswer = new answerModel(req.body);
       const savedAnswer = await newAnswer.save();
       res.status(201).send(JSON.stringify(savedAnswer));
@@ -52,16 +58,13 @@ module.exports = {
   },
 
   authorizePostUser: async (req, res, next) => {
-    console.log('auth');
+    if (!req.headers.userid) return res.status(403).end();
     try {
       const result = await answerModel.findById(req.params.id);
-      if (!result) {
-        return res.status(204).end();
-      }
-      console.log(result.userId, req.headers.userid);
-      if (!req.headers.userid || req.headers.userid !== result.userId) {
-        return res.status(403).end();
-      }
+      if (!result) return res.status(204).end();
+
+      const requesterId = encrypt(req.headers.userid);
+      if (requesterId !== result.userId) return res.status(403).end();
       next();
     } catch (error) {
       next(error);

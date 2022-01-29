@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const authorize = require('./../utils/authorize');
 
 const answerController = require('../controllers/answerController.js');
 
@@ -8,11 +7,7 @@ router.get('/', answerController.getAllAnswers);
 
 router.post('/', answerController.postAnswer);
 
-router.put(
-  '/:id',
-  answerController.authorizePostUser,
-  answerController.updateAnswer
-);
+router.put('/:id', answerController.updateAnswer);
 
 router.delete(
   '/:id',
