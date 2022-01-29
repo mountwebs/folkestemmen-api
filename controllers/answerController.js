@@ -38,4 +38,16 @@ module.exports = {
       next(error);
     }
   },
+
+  deleteAnswer: async (req, res, next) => {
+    try {
+      const result = await answerModel.findByIdAndDelete(req.params.id);
+      if (!result) {
+        return res.status(204).end();
+      }
+      res.status(200).end();
+    } catch (error) {
+      next(error);
+    }
+  },
 };
