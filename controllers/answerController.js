@@ -50,4 +50,21 @@ module.exports = {
       next(error);
     }
   },
+
+  authorizePostUser: async (req, res, next) => {
+    console.log('auth');
+    try {
+      const result = await answerModel.findById(req.params.id);
+      if (!result) {
+        return res.status(204).end();
+      }
+      console.log(result.userId, req.headers.userid);
+      if (!req.headers.userid || req.headers.userid !== result.userId) {
+        return res.status(403).end();
+      }
+      next();
+    } catch (error) {
+      next(error);
+    }
+  },
 };
