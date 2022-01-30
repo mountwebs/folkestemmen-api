@@ -1,4 +1,6 @@
 const answerModel = require('../models/answerModel');
+const likeModel = require('../models/likeModel');
+
 const encrypt = require('./../utils/encrypt');
 
 require('dotenv').config();
@@ -23,6 +25,8 @@ module.exports = {
       req.body.userId = encrypt(req.body.userId);
       const newAnswer = new answerModel(req.body);
       const savedAnswer = await newAnswer.save();
+      const newLike = new likeModel({ answerId: savedAnswer._id });
+      const savedLike = await newLike.save();
       res.status(201).send(JSON.stringify(savedAnswer));
     } catch (error) {
       next(error);

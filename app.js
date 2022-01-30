@@ -6,13 +6,17 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 
 const answerRoute = require('./routes/answerRoute');
+const likeRoute = require('./routes/likeRoute');
 
 app.use(express.json());
 app.use(cors());
-app.use(morgan('tiny'));
+app.use(
+  morgan(':date :method :url :status :res[content-length] :response-time ms')
+);
 app.use(helmet());
 
 app.use('/answer', answerRoute);
+app.use('/like', likeRoute);
 
 app.use(function (req, res, next) {
   res.status(404).send("404: Sorry can't find that!");
