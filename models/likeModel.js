@@ -1,4 +1,3 @@
-const middlewareWrapper = require('cors');
 const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
