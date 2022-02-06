@@ -7,7 +7,11 @@ router.get('/', answerController.getAllAnswers);
 
 router.post('/', answerController.postAnswer);
 
-router.put('/:id', answerController.updateAnswer);
+router.patch(
+  '/:id',
+  answerController.authorizePostUser,
+  answerController.updateAnswer
+);
 
 router.delete(
   '/:id',

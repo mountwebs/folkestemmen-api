@@ -35,10 +35,13 @@ module.exports = {
 
   // TODO: Change this
   updateAnswer: async (req, res, next) => {
+    if (!req.body.text || !req.body.tags) res.status(403).end();
     try {
       const newAnswer = await answerModel.findByIdAndUpdate(
         req.params.id,
-        req.body,
+        {
+          $set: { text: req.body.text, tags: req.body.tags },
+        },
         {
           new: true,
           useFindAndModify: false,
