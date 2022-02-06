@@ -35,7 +35,11 @@ module.exports = {
 
   // TODO: Change this
   updateAnswer: async (req, res, next) => {
-    if (!req.body.text || !req.body.tags) res.status(403).end();
+    console.log(req.body);
+
+    if (!req.body.text || (!req.body.tags && req.body.tags !== ''))
+      return res.status(403).end();
+
     try {
       const newAnswer = await answerModel.findByIdAndUpdate(
         req.params.id,
