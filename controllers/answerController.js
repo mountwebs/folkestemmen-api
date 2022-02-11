@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken');
+
 const answerModel = require('../models/answerModel');
 const likeModel = require('../models/likeModel');
 
@@ -36,8 +38,10 @@ module.exports = {
   updateAnswer: async (req, res, next) => {
     console.log(req.body);
 
-    if (!req.body.text || (!req.body.tags && req.body.tags !== ''))
+    if (!req.body.text || (!req.body.tags && req.body.tags !== '')) {
+      console.log('forbidden?');
       return res.status(403).end();
+    }
 
     try {
       const newAnswer = await answerModel.findByIdAndUpdate(
@@ -70,17 +74,35 @@ module.exports = {
   },
 
   authorizePostUser: async (req, res, next) => {
-    if (!req.headers.userid) return res.status(403).end();
-    try {
-      const result = await answerModel
-        .findById(req.params.id)
-        .select('+userId');
-      if (!result) return res.status(204).end();
+    const authHeader = req.headers.token;
+    const userId = req.headers.userid;
 
-      if (req.headers.userid !== result.userId) return res.status(403).end();
-      next();
-    } catch (error) {
-      next(error);
+    if (authHeader) {
+      const token = authHeader.split(' ')[1];
+      jwt.verify(token, process.env.JWT_SEC, (err, user) => {
+        if (err) {
+          return res.status(403).json('Token is not valid');
+        }
+        if (user.isAdmin) {
+          next();
+        } else {
+          return res.status(403).json('not allowed');
+        }
+      });
+    } else if (userId) {
+      try {
+        const result = await answerModel
+          .findById(req.params.id)
+          .select('+userId');
+        if (!result) return res.status(204).end();
+
+        if (req.headers.userid !== result.userId) return res.status(403).end();
+        next();
+      } catch (error) {
+        next(error);
+      }
+    } else {
+      return res.status(403).end();
     }
   },
 };

@@ -7,6 +7,7 @@ const helmet = require('helmet');
 
 const answerRoute = require('./routes/answerRoute');
 const likeRoute = require('./routes/likeRoute');
+const authRoute = require('./routes/authRoute');
 
 app.use(express.json());
 app.use(cors());
@@ -15,6 +16,7 @@ app.use(
 );
 app.use(helmet());
 
+app.use('/auth', authRoute);
 app.use('/answer', answerRoute);
 app.use('/like', likeRoute);
 
