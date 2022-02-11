@@ -1,8 +1,6 @@
 const answerModel = require('../models/answerModel');
 const likeModel = require('../models/likeModel');
 
-const encrypt = require('./../utils/encrypt');
-
 require('dotenv').config();
 
 module.exports = {
@@ -20,10 +18,12 @@ module.exports = {
 
   postAnswer: async (req, res, next) => {
     try {
-      // console.log(req.body, input.userId);
       if (!req.body.userId) return res.status(403).end();
-      req.body.userId = encrypt(req.body.userId);
-      const newAnswer = new answerModel(req.body);
+      const newAnswer = new answerModel({
+        text: req.body.text,
+        tags: req.body.tags,
+        userId: req.body.userId,
+      });
       const savedAnswer = await newAnswer.save();
       const newLike = new likeModel({ answerId: savedAnswer._id });
       const savedLike = await newLike.save();
@@ -33,7 +33,6 @@ module.exports = {
     }
   },
 
-  // TODO: Change this
   updateAnswer: async (req, res, next) => {
     console.log(req.body);
 
@@ -51,7 +50,8 @@ module.exports = {
           useFindAndModify: false,
         }
       );
-      res.status(200).send(JSON.stringify(newAnswer));
+      delete newAnswer.userId;
+      res.status(200).end(JSON.stringify(newAnswer));
     } catch (error) {
       next(error);
     }
@@ -72,11 +72,12 @@ module.exports = {
   authorizePostUser: async (req, res, next) => {
     if (!req.headers.userid) return res.status(403).end();
     try {
-      const result = await answerModel.findById(req.params.id);
+      const result = await answerModel
+        .findById(req.params.id)
+        .select('+userId');
       if (!result) return res.status(204).end();
 
-      const requesterId = encrypt(req.headers.userid);
-      if (requesterId !== result.userId) return res.status(403).end();
+      if (req.headers.userid !== result.userId) return res.status(403).end();
       next();
     } catch (error) {
       next(error);
