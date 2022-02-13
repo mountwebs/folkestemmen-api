@@ -7,11 +7,16 @@ require('dotenv').config();
 
 module.exports = {
   getAllAnswers: async (req, res, next) => {
+    const sort =
+      req.query.sort && req.query.sort === 'likes'
+        ? { numOfLikes: -1, createdAt: -1 }
+        : { createdAt: -1 };
+    const skip =
+      req.query.skip && /^\d+$/.test(req.query.skip)
+        ? Number(req.query.skip)
+        : 0;
     try {
-      const answers =
-        req.query.sort === 'likes'
-          ? await answerModel.find().sort({ numOfLikes: -1, createdAt: -1 })
-          : await answerModel.find().sort({ createdAt: -1 });
+      const answers = await answerModel.find().limit(25).skip(skip).sort(sort);
       res.json(answers).status(200).end();
     } catch (error) {
       next(error);
