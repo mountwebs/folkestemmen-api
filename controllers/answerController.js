@@ -38,6 +38,7 @@ module.exports = {
         text: req.body.text,
         tags: req.body.tags,
         userId: req.body.userId,
+        age: req.body.age,
       });
       const savedAnswer = await newAnswer.save();
       const newLike = new likeModel({ answerId: savedAnswer._id });
