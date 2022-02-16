@@ -50,8 +50,6 @@ module.exports = {
   },
 
   updateAnswer: async (req, res, next) => {
-    console.log(req.body);
-
     if (!req.body.text || (!req.body.tags && req.body.tags !== '')) {
       console.log('forbidden?');
       return res.status(403).end();
@@ -61,7 +59,7 @@ module.exports = {
       const newAnswer = await answerModel.findByIdAndUpdate(
         req.params.id,
         {
-          $set: { text: req.body.text, tags: req.body.tags },
+          $set: { text: req.body.text, tags: req.body.tags, edited: true },
         },
         {
           new: true,
@@ -116,6 +114,8 @@ module.exports = {
         next(error);
       }
     } else {
+      console.log('test');
+
       return res.status(403).end();
     }
   },
