@@ -34,6 +34,12 @@ module.exports = {
   postAnswer: async (req, res, next) => {
     try {
       if (!req.body.userId) return res.status(403).end();
+      // Check if user has more than two answers
+      const answersByUser = await answerModel
+        .find({ userId: req.body.userId })
+        .count();
+      if (answersByUser >= 2)
+        return res.status(403).json('Too many answers for user');
       const newAnswer = new answerModel({
         text: req.body.text,
         tags: req.body.tags,
