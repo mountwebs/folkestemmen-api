@@ -9,6 +9,7 @@ const answerModelSchema = new Schema(
     tags: String,
     numOfLikes: { type: Number, default: 0 },
     age: { type: Number, select: false },
+    edited: { type: Boolean, default: false },
   },
   { timestamps: true }
 );
