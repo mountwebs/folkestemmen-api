@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 
 const answerModel = require('../models/answerModel');
 const likeModel = require('../models/likeModel');
+const bleeps = require('../utils/bleeps');
 
 require('dotenv').config();
 
@@ -40,8 +41,13 @@ module.exports = {
         .count();
       if (answersByUser >= 2)
         return res.status(403).json('Too many answers for user');
+      let improvedText = req.body.text;
+      bleeps.forEach((word) => {
+        const regEx = new RegExp(`${word}`, 'gi');
+        improvedText = improvedText.replace(regEx, '🍆');
+      });
       const newAnswer = new answerModel({
-        text: req.body.text,
+        text: improvedText,
         tags: req.body.tags,
         userId: req.body.userId,
         age: req.body.age,
