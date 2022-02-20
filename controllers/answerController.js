@@ -50,7 +50,7 @@ module.exports = {
       });
       const newAnswer = new answerModel({
         text: improvedText,
-        tags: req.body.tags,
+        tags: improvedTags,
         userId: req.body.userId,
         age: req.body.age,
       });
