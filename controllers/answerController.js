@@ -42,9 +42,11 @@ module.exports = {
       if (answersByUser >= 2)
         return res.status(403).json('Too many answers for user');
       let improvedText = req.body.text;
+      let improvedTags = req.body.tags;
       bleeps.forEach((word) => {
         const regEx = new RegExp(`${word}`, 'gi');
         improvedText = improvedText.replace(regEx, '🍆');
+        improvedTags = improvedTags.replace(regEx, '🍆');
       });
       const newAnswer = new answerModel({
         text: improvedText,
