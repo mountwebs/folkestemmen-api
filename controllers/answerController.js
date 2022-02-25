@@ -69,11 +69,19 @@ module.exports = {
       return res.status(403).end();
     }
 
+    let improvedText = req.body.text;
+    let improvedTags = req.body.tags;
+    bleeps.forEach((word) => {
+      const regEx = new RegExp(`${word}`, 'gi');
+      improvedText = improvedText.replace(regEx, '❗');
+      improvedTags = improvedTags.replace(regEx, '❗');
+    });
+
     try {
       const newAnswer = await answerModel.findByIdAndUpdate(
         req.params.id,
         {
-          $set: { text: req.body.text, tags: req.body.tags, edited: true },
+          $set: { text: improvedText, tags: improvedTags, edited: true },
         },
         {
           new: true,
