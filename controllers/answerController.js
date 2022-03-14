@@ -51,7 +51,7 @@ module.exports = {
         .limit(limit)
         .skip(skip)
         .sort(sort)
-        .select('+age');
+        .select('+age +userId');
       res.json(answers).status(200).end();
     } catch (error) {
       next(error);
