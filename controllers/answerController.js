@@ -80,6 +80,7 @@ module.exports = {
         tags: improvedTags,
         userId: req.body.userId,
         age: req.body.age,
+        place: req.body.place,
       });
       const savedAnswer = await newAnswer.save();
       const newLike = new likeModel({ answerId: savedAnswer._id });

@@ -10,6 +10,7 @@ const answerModelSchema = new Schema(
     numOfLikes: { type: Number, default: 0 },
     age: { type: Number, select: false },
     edited: { type: Boolean, default: false },
+    place: { type: String, default: '' },
   },
   { timestamps: true }
 );
