@@ -20,12 +20,13 @@ module.exports = {
       req.query.limit && /^\d+$/.test(req.query.limit)
         ? Number(req.query.limit)
         : 25;
+    const tagFilter = req.query.tag ?? '';
+
     try {
-      const answers = await answerModel
-        .find()
-        .limit(limit)
-        .skip(skip)
-        .sort(sort);
+      const query = tagFilter
+        ? answerModel.find({ tags: tagFilter })
+        : answerModel.find();
+      const answers = await query.limit(limit).skip(skip).sort(sort);
       res.json(answers).status(200).end();
     } catch (error) {
       next(error);
