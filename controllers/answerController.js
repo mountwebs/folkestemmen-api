@@ -66,7 +66,7 @@ module.exports = {
       const answersByUser = await answerModel
         .find({ userId: req.body.userId })
         .count();
-      if (answersByUser >= 8)
+      if (answersByUser >= 5)
         return res.status(403).json('Too many answers for user');
       let improvedText = req.body.text;
       let improvedTags = req.body.tags;
