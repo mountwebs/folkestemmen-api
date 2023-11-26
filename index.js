@@ -5,7 +5,8 @@ require('dotenv').config();
 
 // const mongoDBString = `mongodb+srv://${process.env.DB_user}:${process.env.DB_password}@cluster0.cqebn.gcp.mongodb.net/${process.env.DB_name}?retryWrites=true&w=majority`;
 // const mongoDBString = `mongodb://${process.env.DB_user}:${process.env.DB_password}@164.90.167.109:27017/`;
-const mongoDBString = `mongodb+srv://${process.env.DB_user}:${process.env.DB_password}@cluster0.cqebn.gcp.mongodb.net/?retryWrites=true&w=majority`;
+// mongodb+srv://<username>:<password>@cluster0.ecqcpew.mongodb.net/?retryWrites=true&w=majority
+const mongoDBString = `mongodb+srv://${process.env.DB_user}:${process.env.DB_password}@cluster0.ecqcpew.mongodb.net/?retryWrites=true&w=majority`;
 
 mongoose.connect(
   mongoDBString,
